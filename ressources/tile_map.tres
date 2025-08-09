@@ -1,0 +1,24 @@
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://dkksjkilyophc"]
+
+[ext_resource type="Texture2D" uid="uid://bglmxy1wmsby8" path="res://assets/hexagon3d.png" id="1_22hi1"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_22hi1"]
+polygon = PackedVector2Array(-15.5, -12, -9.5, -24, 9.5, -24, 15.5, -12, 9.5, 0, -9.5, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2s7k2"]
+texture = ExtResource("1_22hi1")
+texture_region_size = Vector2i(34, 48)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-17, 0, -8.5, -12, 8.5, -12, 17, 0, 8.5, 12, -8.5, 12)
+1:0/0 = 0
+1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_22hi1")
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-17, 0, -8.5, -12, 8.5, -12, 17, 0, 8.5, 12, -8.5, 12)
+
+[resource]
+tile_shape = 3
+tile_layout = 5
+tile_offset_axis = 1
+tile_size = Vector2i(36, 26)
+occlusion_layer_0/light_mask = 1
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_2s7k2")
