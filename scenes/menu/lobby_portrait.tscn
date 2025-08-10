@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://xe224oxhkmar"]
+
+[node name="LobbyPortrait" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 24.0
+bbcode_enabled = true
+text = "[color=red]DEFAULT TEXT[/color]"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1

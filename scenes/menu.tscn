@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://bf11s2ijiv3jy"]
+
+[ext_resource type="Script" uid="uid://b0tsbjn1mpekq" path="res://scripts/Menu.cs" id="1_yqeox"]
+[ext_resource type="PackedScene" uid="uid://2mhpg4o6n07m" path="res://scenes/menu/lobby_portraits_array.tscn" id="2_vjb58"]
+
+[node name="Menu" type="Node" node_paths=PackedStringArray("_hostButton", "_joinButton", "_leaveLobbyButton", "_lobbyScreen", "_portraitsArray", "_titleScreen")]
+script = ExtResource("1_yqeox")
+_hostButton = NodePath("TitleScreen/HostButton")
+_joinButton = NodePath("TitleScreen/JoinButton")
+_leaveLobbyButton = NodePath("LobbyScreen/LeaveLobbyButton")
+_lobbyScreen = NodePath("LobbyScreen")
+_portraitsArray = NodePath("LobbyScreen/LobbyPortraitsArray")
+_titleScreen = NodePath("TitleScreen")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.176471, 0.0941176, 0.211765, 1)
+metadata/_edit_lock_ = true
+
+[node name="TitleScreen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 520.0
+offset_bottom = 270.0
+
+[node name="HostButton" type="Button" parent="TitleScreen"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 40.0
+offset_right = 288.0
+offset_bottom = 71.0
+text = "Host Game"
+
+[node name="JoinButton" type="Button" parent="TitleScreen"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 96.0
+offset_right = 288.0
+offset_bottom = 127.0
+text = "Join Game"
+
+[node name="LobbyScreen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 520.0
+offset_bottom = 270.0
+
+[node name="LobbyPortraitsArray" parent="LobbyScreen" instance=ExtResource("2_vjb58")]
+layout_mode = 1
+
+[node name="LeaveLobbyButton" type="Button" parent="LobbyScreen"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 69.0
+offset_bottom = 47.0
+text = "Leave"

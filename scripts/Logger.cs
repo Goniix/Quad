@@ -4,9 +4,16 @@ namespace Quad.scripts;
 
 public partial class Logger : Node2D
 {
-    public static void Info(string message)
+    public enum Source
     {
-        GD.PrintRich($"[color=white][b][INFO][/b][/color] {message}");
+        Net,
+        None
+    }
+
+    public static void Info(string message, Source source = Source.None)
+    {
+        var tag = GetTagForSource(source);
+        GD.PrintRich($"{tag}[color=white][b][INFO][/b][/color] {message}");
     }
 
     public static void Done()
@@ -14,13 +21,26 @@ public partial class Logger : Node2D
         Info("Done!");
     }
 
-    public static void Warn(string message)
+    public static void Warn(string message, Source source = Source.None)
     {
-        GD.PrintRich($"[color=orange][b][WARN][/b][/color] {message}");
+        var tag = GetTagForSource(source);
+        GD.PrintRich($"{tag}[color=orange][b][WARN][/b][/color] {message}");
     }
 
-    public static void Error(string message)
+    public static void Error(string message, Source source = Source.None)
     {
-        GD.PrintRich($"[color=red][b][ERROR][/b][/color] {message}");
+        // var tag = GetTagForSource(source);
+        // GD.PrintRich($"{tag}[color=red][b][ERROR][/b][/color] {message}");
+        GD.PrintErr(message);
+    }
+
+    private static string GetTagForSource(Source source)
+    {
+        return source switch
+        {
+            Source.Net => "[color=cyan][b][NET][/b][/color]",
+            Source.None => "",
+            _ => source.ToString()
+        };
     }
 }
