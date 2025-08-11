@@ -7,7 +7,10 @@ namespace Quad.scripts;
 public partial class OnlineLobby : Node
 {
     [Signal]
-    public delegate void LobbyUpdatedEventHandler();
+    public delegate void ConnectionFailedEventHandler();
+
+    [Signal]
+    public delegate void ConnectionSuccessfulEventHandler();
 
     // These signals can be connected to by a UI lobby scene or the game scene.
     [Signal]
@@ -38,9 +41,10 @@ public partial class OnlineLobby : Node
         Instance = this;
         Multiplayer.PeerConnected += OnPlayerConnected;
         Multiplayer.PeerDisconnected += OnPlayerDisconnected;
+        Multiplayer.ServerDisconnected += OnServerDisconnected;
+
         Multiplayer.ConnectedToServer += OnConnectOk; //self call
         Multiplayer.ConnectionFailed += OnConnectionFail; //self call
-        Multiplayer.ServerDisconnected += OnServerDisconnected;
     }
 
     public Error JoinGame(string address = "")
@@ -64,14 +68,24 @@ public partial class OnlineLobby : Node
 
         Multiplayer.MultiplayerPeer = peer;
         Players[1] = LocalPlayerInfo;
+        Logger.Info($"Created lobby on port {Port}");
         EmitSignal(SignalName.PlayerConnected, 1, Players[1].Content);
         return Error.Ok;
     }
 
     public void ClearMultiplayer()
     {
-        if (Multiplayer.MultiplayerPeer != null && Multiplayer.IsServer()) Multiplayer.MultiplayerPeer.Close();
-        Multiplayer.MultiplayerPeer = null;
+        if (Multiplayer.MultiplayerPeer != null)
+        {
+            if (Multiplayer.MultiplayerPeer.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Disconnected)
+            {
+                Logger.Info($"Closing multiplayer for peer: {Multiplayer.MultiplayerPeer.GetUniqueId()}");
+                Multiplayer.MultiplayerPeer.Close();
+            }
+
+            Multiplayer.MultiplayerPeer = null;
+        }
+
         Players.Clear();
     }
 
@@ -92,7 +106,9 @@ public partial class OnlineLobby : Node
             _playersLoaded += 1;
             if (_playersLoaded == Players.Count)
                 // GetNode<Game>("/root/Game").StartGame();
+            {
                 _playersLoaded = 0;
+            }
         }
     }
 
@@ -113,6 +129,7 @@ public partial class OnlineLobby : Node
 
     private void OnPlayerDisconnected(long id)
     {
+        Logger.Info($"Peer disconnected {id}");
         Players.Remove(id);
         EmitSignal(SignalName.PlayerDisconnected, id);
     }
@@ -121,17 +138,23 @@ public partial class OnlineLobby : Node
     {
         var peerId = Multiplayer.GetUniqueId();
         Players[peerId] = LocalPlayerInfo;
+        Logger.Info($"Successfully connected (peer id: {peerId})");
         EmitSignal(SignalName.PlayerConnected, peerId, LocalPlayerInfo.Content);
+        EmitSignal(SignalName.ConnectionSuccessful);
     }
 
     private void OnConnectionFail() //RUNS ON SELF
     {
+        Logger.Info("Connection failed");
         ClearMultiplayer();
+        EmitSignal(SignalName.ConnectionFailed);
     }
 
     private void OnServerDisconnected()
     {
-        ClearMultiplayer();
+        Logger.Info("Server disconnected");
+        Multiplayer.MultiplayerPeer = null;
+        Players.Clear();
         EmitSignal(SignalName.ServerDisconnected);
     }
 }

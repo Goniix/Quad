@@ -9,7 +9,6 @@ public partial class LobbyPortraitsArray : Control
 
     public void UpdatePortraits()
     {
-        Logger.Info(_portraits.Length.ToString());
         var infos = OnlineLobby.Instance.Players;
         var keys = infos.Keys.ToArray();
         var names = infos.Values.ToArray();
