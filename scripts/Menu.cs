@@ -1,4 +1,3 @@
-using System.Linq;
 using Godot;
 
 namespace Quad.scripts;
@@ -30,11 +29,7 @@ public partial class Menu : Node
 
     private void UpdatePlayerList()
     {
-        var playerList = OnlineLobby.Instance.Players.Values.ToList();
-        var nameList = new string[playerList.Count];
-        for (var i = 0; i < playerList.Count; i++) nameList[i] = playerList[i].Name;
-
-        _portraitsArray.Names = nameList.OrderBy(s => s).ToArray();
+        _portraitsArray.UpdatePortraits();
     }
 
     private void SetCurrentScreen(Control screen)

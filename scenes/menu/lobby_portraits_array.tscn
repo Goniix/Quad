@@ -3,35 +3,21 @@
 [ext_resource type="Script" uid="uid://cppkyshrkpa4a" path="res://scripts/LobbyPortraitsArray.cs" id="1_hh6d7"]
 [ext_resource type="PackedScene" uid="uid://xe224oxhkmar" path="res://scenes/menu/lobby_portrait.tscn" id="1_qajid"]
 
-[node name="LobbyPortraitsArray" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="LobbyPortraitsArray" type="HBoxContainer" node_paths=PackedStringArray("_portraits")]
+offset_right = 489.0
+offset_bottom = 16.0
+theme_override_constants/separation = 131
 script = ExtResource("1_hh6d7")
+_portraits = [NodePath("portrait0"), NodePath("portrait1"), NodePath("portrait2"), NodePath("portrait3")]
 
-[node name="PortraitPlayer0" parent="." instance=ExtResource("1_qajid")]
-offset_left = 8.0
-offset_top = 192.0
-offset_right = 8.0
-offset_bottom = 192.0
+[node name="portrait0" parent="." instance=ExtResource("1_qajid")]
+layout_mode = 2
 
-[node name="PortraitPlayer1" parent="." instance=ExtResource("1_qajid")]
-offset_left = 128.0
-offset_top = 192.0
-offset_right = 128.0
-offset_bottom = 192.0
+[node name="portrait1" parent="." instance=ExtResource("1_qajid")]
+layout_mode = 2
 
-[node name="PortraitPlayer2" parent="." instance=ExtResource("1_qajid")]
-offset_left = 256.0
-offset_top = 192.0
-offset_right = 256.0
-offset_bottom = 192.0
+[node name="portrait2" parent="." instance=ExtResource("1_qajid")]
+layout_mode = 2
 
-[node name="PortraitPlayer3" parent="." instance=ExtResource("1_qajid")]
-offset_left = 384.0
-offset_top = 192.0
-offset_right = 384.0
-offset_bottom = 192.0
+[node name="portrait3" parent="." instance=ExtResource("1_qajid")]
+layout_mode = 2

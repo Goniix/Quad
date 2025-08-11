@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bf11s2ijiv3jy"]
+[gd_scene load_steps=5 format=3 uid="uid://bf11s2ijiv3jy"]
 
 [ext_resource type="Script" uid="uid://b0tsbjn1mpekq" path="res://scripts/Menu.cs" id="1_yqeox"]
+[ext_resource type="Theme" uid="uid://cegkvatd1uxkk" path="res://ressources/default_theme.tres" id="2_con2f"]
 [ext_resource type="PackedScene" uid="uid://2mhpg4o6n07m" path="res://scenes/menu/lobby_portraits_array.tscn" id="2_vjb58"]
+[ext_resource type="Script" uid="uid://bxyrqanlsgo3r" path="res://scripts/EnterName.cs" id="3_mhnvy"]
 
 [node name="Menu" type="Node" node_paths=PackedStringArray("_hostButton", "_joinButton", "_leaveLobbyButton", "_lobbyScreen", "_portraitsArray", "_titleScreen")]
 script = ExtResource("1_yqeox")
@@ -34,6 +36,7 @@ offset_left = 192.0
 offset_top = 40.0
 offset_right = 288.0
 offset_bottom = 71.0
+theme = ExtResource("2_con2f")
 text = "Host Game"
 
 [node name="JoinButton" type="Button" parent="TitleScreen"]
@@ -41,8 +44,19 @@ layout_mode = 0
 offset_left = 192.0
 offset_top = 96.0
 offset_right = 288.0
-offset_bottom = 127.0
+offset_bottom = 125.0
 text = "Join Game"
+
+[node name="EnterName" type="LineEdit" parent="TitleScreen"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 232.0
+offset_right = 105.0
+offset_bottom = 261.0
+placeholder_text = "Enter your Name"
+max_length = 15
+expand_to_text_length = true
+script = ExtResource("3_mhnvy")
 
 [node name="LobbyScreen" type="Control" parent="."]
 visible = false
@@ -53,6 +67,10 @@ offset_bottom = 270.0
 
 [node name="LobbyPortraitsArray" parent="LobbyScreen" instance=ExtResource("2_vjb58")]
 layout_mode = 1
+offset_left = 16.0
+offset_top = 232.0
+offset_right = 505.0
+offset_bottom = 248.0
 
 [node name="LeaveLobbyButton" type="Button" parent="LobbyScreen"]
 layout_mode = 0

@@ -1,16 +1,27 @@
+using System.Linq;
 using Godot;
 
 namespace Quad.scripts;
 
 public partial class LobbyPortraitsArray : Control
 {
-    public string[] Names
+    [Export] private LobbyPortrait[] _portraits = new LobbyPortrait[4];
+
+    public void UpdatePortraits()
     {
-        set
+        Logger.Info(_portraits.Length.ToString());
+        var infos = OnlineLobby.Instance.Players;
+        var keys = infos.Keys.ToArray();
+        var names = infos.Values.ToArray();
+        for (var i = 0; i < 4; i++)
         {
-            for (var i = 0; i < 4; i++)
-                if (GetNode<Control>("./PortraitPlayer" + i).GetNode<RichTextLabel>("Label") is { } label)
-                    label.Text = i < value.Length ? value[i] : "[color=red]DEFAULT TEXT[/color]";
+            string name;
+            if (i < infos.Count)
+                name = keys[i] == Multiplayer.GetUniqueId() ? $"[color=yellow]{names[i].Name}[/color]" : names[i].Name;
+            else
+                name = "[color=gray]<Empty>[/color]";
+
+            _portraits[i].PlayerName.Text = name;
         }
     }
 }

@@ -4,8 +4,8 @@ namespace Quad.scripts;
 
 public class PlayerInfo
 {
-    public readonly string Name;
     public readonly string Test;
+    public string Name;
 
     public PlayerInfo(Array<string> content)
     {

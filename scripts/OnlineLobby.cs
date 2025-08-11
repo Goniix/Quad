@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
 
@@ -22,12 +23,12 @@ public partial class OnlineLobby : Node
     private const string DefaultServerIP = "127.0.0.1"; // IPv4 localhost
     private const int MaxConnections = 4;
 
+    //EDIT WITH TRUE PLAYER INFO BEFORE JOIN/HOST
+    public readonly PlayerInfo LocalPlayerInfo = new("NONAME", "Zub");
+
     // This will contain player info for every player,
     // with the keys being each player's unique IDs.
-    public readonly System.Collections.Generic.Dictionary<long, PlayerInfo> Players = new();
-
-    //EDIT WITH TRUE PLAYER INFO BEFORE JOIN/HOST
-    private readonly PlayerInfo _localPlayerInfo = new("NONAME", "Zub");
+    public readonly SortedDictionary<long, PlayerInfo> Players = new();
 
     private int _playersLoaded;
     public static OnlineLobby Instance { get; private set; }
@@ -62,7 +63,7 @@ public partial class OnlineLobby : Node
         if (error != Error.Ok) return error;
 
         Multiplayer.MultiplayerPeer = peer;
-        Players[1] = _localPlayerInfo;
+        Players[1] = LocalPlayerInfo;
         EmitSignal(SignalName.PlayerConnected, 1, Players[1].Content);
         return Error.Ok;
     }
@@ -99,7 +100,7 @@ public partial class OnlineLobby : Node
     // This allows transfer of all desired data for each player, not only the unique ID.
     private void OnPlayerConnected(long id)
     {
-        RpcId(id, MethodName.RegisterPlayer, _localPlayerInfo.Content);
+        RpcId(id, MethodName.RegisterPlayer, LocalPlayerInfo.Content);
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -108,14 +109,6 @@ public partial class OnlineLobby : Node
         var newPlayerId = Multiplayer.GetRemoteSenderId();
         Players[newPlayerId] = new PlayerInfo(newPlayerInfo);
         EmitSignal(SignalName.PlayerConnected, newPlayerId, newPlayerInfo);
-    }
-
-    [Rpc(TransferMode = MultiplayerPeer.TransferModeEnum.Reliable, CallLocal = false)]
-    private void SendLobbyInfo(Dictionary<long, Array<string>> lobbyInfo)
-    {
-        Players.Clear();
-        foreach (var playerInfo in lobbyInfo) Players[playerInfo.Key] = new PlayerInfo(playerInfo.Value);
-        EmitSignal(SignalName.LobbyUpdated);
     }
 
     private void OnPlayerDisconnected(long id)
@@ -127,8 +120,8 @@ public partial class OnlineLobby : Node
     private void OnConnectOk() //RUNS ON SELF
     {
         var peerId = Multiplayer.GetUniqueId();
-        Players[peerId] = _localPlayerInfo;
-        EmitSignal(SignalName.PlayerConnected, peerId, _localPlayerInfo.Content);
+        Players[peerId] = LocalPlayerInfo;
+        EmitSignal(SignalName.PlayerConnected, peerId, LocalPlayerInfo.Content);
     }
 
     private void OnConnectionFail() //RUNS ON SELF
