@@ -1,25 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://bf11s2ijiv3jy"]
+[gd_scene load_steps=6 format=3 uid="uid://bf11s2ijiv3jy"]
 
 [ext_resource type="Script" uid="uid://b0tsbjn1mpekq" path="res://scripts/Menu.cs" id="1_yqeox"]
-[ext_resource type="Theme" uid="uid://cegkvatd1uxkk" path="res://ressources/default_theme.tres" id="2_con2f"]
-[ext_resource type="PackedScene" uid="uid://2mhpg4o6n07m" path="res://scenes/menu/lobby_portraits_array.tscn" id="2_vjb58"]
-[ext_resource type="Script" uid="uid://bxyrqanlsgo3r" path="res://scripts/EnterName.cs" id="3_mhnvy"]
+[ext_resource type="PackedScene" uid="uid://b7qqnp1bdix7d" path="res://scenes/menu/screens/title_screen.tscn" id="2_4ytvr"]
+[ext_resource type="PackedScene" uid="uid://bpbiucmw64r06" path="res://scenes/menu/screens/lobby_screen.tscn" id="3_g3eks"]
+[ext_resource type="PackedScene" uid="uid://3ek8nst7xhb7" path="res://scenes/menu/screens/connection_screen.tscn" id="4_v86rl"]
+[ext_resource type="PackedScene" uid="uid://bt5u68o48xpqu" path="res://scenes/menu/screens/pending_connection_screen.tscn" id="5_13sgg"]
 
-[node name="Menu" type="Node" node_paths=PackedStringArray("_titleScreen", "_hostButton", "_joinButton", "_lobbyScreen", "_leaveLobbyButton", "_portraitsArray", "_connectionScreen", "_leaveConnectionButton", "_connectIpEdit", "_connectButton", "_pendingConnectionScreen", "_pendingConnectionStatus", "_pendingCancelButton")]
+[node name="Menu" type="Node" node_paths=PackedStringArray("_titleScreen", "_lobbyScreen", "_connectionScreen", "_pendingConnectionScreen")]
 script = ExtResource("1_yqeox")
 _titleScreen = NodePath("TitleScreen")
-_hostButton = NodePath("TitleScreen/HostButton")
-_joinButton = NodePath("TitleScreen/JoinButton")
 _lobbyScreen = NodePath("LobbyScreen")
-_leaveLobbyButton = NodePath("LobbyScreen/LeaveLobbyButton")
-_portraitsArray = NodePath("LobbyScreen/LobbyPortraitsArray")
 _connectionScreen = NodePath("ConnectionScreen")
-_leaveConnectionButton = NodePath("ConnectionScreen/LeaveConnectionButton")
-_connectIpEdit = NodePath("ConnectionScreen/ConnectIpEdit")
-_connectButton = NodePath("ConnectionScreen/ConnectButton")
 _pendingConnectionScreen = NodePath("PendingConnectionScreen")
-_pendingConnectionStatus = NodePath("PendingConnectionScreen/PendingStatusLabel")
-_pendingCancelButton = NodePath("PendingConnectionScreen/CancelPendingButton")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -30,123 +22,10 @@ grow_vertical = 2
 color = Color(0.176471, 0.0941176, 0.211765, 1)
 metadata/_edit_lock_ = true
 
-[node name="TitleScreen" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 520.0
-offset_bottom = 270.0
+[node name="TitleScreen" parent="." instance=ExtResource("2_4ytvr")]
 
-[node name="HostButton" type="Button" parent="TitleScreen"]
-layout_mode = 0
-offset_left = 192.0
-offset_top = 40.0
-offset_right = 288.0
-offset_bottom = 71.0
-theme = ExtResource("2_con2f")
-text = "Host Game"
+[node name="LobbyScreen" parent="." instance=ExtResource("3_g3eks")]
 
-[node name="JoinButton" type="Button" parent="TitleScreen"]
-layout_mode = 0
-offset_left = 192.0
-offset_top = 96.0
-offset_right = 288.0
-offset_bottom = 125.0
-text = "Join Game"
+[node name="ConnectionScreen" parent="." instance=ExtResource("4_v86rl")]
 
-[node name="EnterName" type="LineEdit" parent="TitleScreen"]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 232.0
-offset_right = 105.0
-offset_bottom = 261.0
-placeholder_text = "Enter your Name"
-max_length = 15
-expand_to_text_length = true
-script = ExtResource("3_mhnvy")
-
-[node name="LobbyScreen" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 520.0
-offset_bottom = 270.0
-
-[node name="LobbyPortraitsArray" parent="LobbyScreen" instance=ExtResource("2_vjb58")]
-layout_mode = 1
-offset_left = 16.0
-offset_top = 232.0
-offset_right = 505.0
-offset_bottom = 248.0
-
-[node name="LeaveLobbyButton" type="Button" parent="LobbyScreen"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 69.0
-offset_bottom = 45.0
-text = "Back"
-
-[node name="ConnectionScreen" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 520.0
-offset_bottom = 270.0
-
-[node name="LeaveConnectionButton" type="Button" parent="ConnectionScreen"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 69.0
-offset_bottom = 37.0
-text = "Back"
-
-[node name="ConnectIpEdit" type="LineEdit" parent="ConnectionScreen"]
-layout_mode = 0
-offset_left = 128.0
-offset_top = 96.0
-offset_right = 224.0
-offset_bottom = 125.0
-placeholder_text = "127.0.0.1"
-max_length = 15
-
-[node name="ConnectButton" type="Button" parent="ConnectionScreen"]
-layout_mode = 0
-offset_left = 144.0
-offset_top = 144.0
-offset_right = 208.0
-offset_bottom = 173.0
-text = "Connect"
-
-[node name="PendingConnectionScreen" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 520.0
-offset_bottom = 270.0
-
-[node name="CancelPendingButton" type="Button" parent="PendingConnectionScreen"]
-layout_mode = 1
-offset_left = 232.0
-offset_top = 200.0
-offset_right = 288.0
-offset_bottom = 229.0
-text = "Cancel"
-
-[node name="PendingStatusLabel" type="Label" parent="PendingConnectionScreen"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -10.5
-offset_right = 20.0
-offset_bottom = 10.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Waiting for server"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="PendingConnectionScreen" parent="." instance=ExtResource("5_13sgg")]

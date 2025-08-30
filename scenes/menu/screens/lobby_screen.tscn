@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpbiucmw64r06"]
+
+[ext_resource type="Script" uid="uid://heuw7edmfskd" path="res://scenes/menu/screens/LobbyScreen.cs" id="1_4thv0"]
+[ext_resource type="PackedScene" uid="uid://2mhpg4o6n07m" path="res://scenes/menu/lobby_portraits_array.tscn" id="1_j6i5e"]
+
+[node name="LobbyScreen" type="Control" node_paths=PackedStringArray("_leaveButton", "_portraitsArray")]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 520.0
+offset_bottom = 270.0
+script = ExtResource("1_4thv0")
+_leaveButton = NodePath("LeaveButton")
+_portraitsArray = NodePath("LobbyPortraitsArray")
+
+[node name="LobbyPortraitsArray" parent="." instance=ExtResource("1_j6i5e")]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 232.0
+offset_right = 505.0
+offset_bottom = 248.0
+
+[node name="LeaveButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 69.0
+offset_bottom = 45.0
+text = "Back"

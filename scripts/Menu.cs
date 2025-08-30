@@ -1,64 +1,34 @@
 using Godot;
+using Quad.scenes.menu.screens;
 
 namespace Quad.scripts;
 
 public partial class Menu : Node
 {
-    [Export] private Control _titleScreen;
-    [Export] private Button _hostButton;
-    [Export] private Button _joinButton;
-
-    [Export] private Control _lobbyScreen;
-    [Export] private Button _leaveLobbyButton;
-    [Export] private LobbyPortraitsArray _portraitsArray;
-
-    [Export] private Control _connectionScreen;
-    [Export] private Button _leaveConnectionButton;
-    [Export] private LineEdit _connectIpEdit;
-    [Export] private Button _connectButton;
-
-    [Export] private Control _pendingConnectionScreen;
-    [Export] private Label _pendingConnectionStatus;
-    [Export] private Button _pendingCancelButton;
-
+    [Export] private TitleScreen _titleScreen;
+    [Export] private LobbyScreen _lobbyScreen;
+    [Export] private ConnectionScreen _connectionScreen;
+    [Export] private PendingConnectionScreen _pendingConnectionScreen;
+    
     private Control _currentScreen;
+
+    public static Menu Instance { get; private set; }
 
     public override void _Ready()
     {
+
+        Instance = this;
         //NETWORKED TRIGGERED SIGNALS
-        OnlineLobby.Instance.PlayerConnected += (_, _) => UpdatePlayerList();
-        OnlineLobby.Instance.PlayerDisconnected += _ => UpdatePlayerList();
+        OnlineLobby.Instance.PlayerConnected += (_, _) => _lobbyScreen.UpdatePlayerList();
+        OnlineLobby.Instance.PlayerDisconnected += _ => _lobbyScreen.UpdatePlayerList();
         OnlineLobby.Instance.ServerDisconnected += OnServerDiconnected;
         //LOCAL NETWORK SIGNALS
         OnlineLobby.Instance.ConnectionSuccessful += OnConnectionSuccessful;
         OnlineLobby.Instance.ConnectionFailed += OnConnectionFailed;
 
-        //TITLE
-        _hostButton!.Pressed += OnCreateLobbyButtonPressed;
-        _joinButton!.Pressed += OnJoinLobbyButtonPressed;
-
-        //LOBBY
-        _leaveLobbyButton.Pressed += OnLeaveLobbyButtonPressed;
-
-        //CONNECTION
-        _leaveConnectionButton.Pressed += () => { SetCurrentScreen(_titleScreen); };
-        _connectButton.Pressed += OnConnectButtonPressed;
-
-        //PENDING CONNECTION
-        _pendingCancelButton.Pressed += () =>
-        {
-            OnlineLobby.Instance.ClearMultiplayer();
-            SetCurrentScreen(_connectionScreen);
-        };
-
-        SetCurrentScreen(_titleScreen);
+        GotoTitle();
     }
-
-    private void UpdatePlayerList()
-    {
-        _portraitsArray.UpdatePortraits();
-    }
-
+    
     private void SetCurrentScreen(Control screen)
     {
         if (_currentScreen != null) _currentScreen.Visible = false;
@@ -67,35 +37,33 @@ public partial class Menu : Node
         _currentScreen = screen;
     }
 
-    private void OnLeaveLobbyButtonPressed()
+    public void GotoTitle()
     {
-        OnlineLobby.Instance.ClearMultiplayer(); //MAKE LEAVE REQUEST INSTEAD
         SetCurrentScreen(_titleScreen);
     }
-
-    private void OnCreateLobbyButtonPressed()
+    
+    public void GotoLobby()
     {
-        OnlineLobby.Instance.CreateGame();
         SetCurrentScreen(_lobbyScreen);
     }
 
-    private void OnJoinLobbyButtonPressed()
+    public void GotoConnection()
     {
         SetCurrentScreen(_connectionScreen);
     }
 
+    public void GotoPendingConnection()
+    {
+        SetCurrentScreen(_pendingConnectionScreen);
+    }
+    
+    //SIGNALS
     private void OnServerDiconnected()
     {
         OnlineLobby.Instance.ClearMultiplayer();
         SetCurrentScreen(_titleScreen);
     }
-
-    private void OnConnectButtonPressed()
-    {
-        OnlineLobby.Instance.JoinGame(_connectIpEdit.Text);
-        SetCurrentScreen(_pendingConnectionScreen);
-    }
-
+    
     private void OnConnectionFailed()
     {
         SetCurrentScreen(_connectionScreen);
@@ -103,7 +71,7 @@ public partial class Menu : Node
 
     private void OnConnectionSuccessful()
     {
-        UpdatePlayerList();
-        SetCurrentScreen(_lobbyScreen);
+        _lobbyScreen.UpdatePlayerList();
+        GotoLobby();
     }
 }

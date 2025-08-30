@@ -5,7 +5,15 @@ namespace Quad.scripts;
 
 public partial class LobbyPortraitsArray : Control
 {
-    [Export] private LobbyPortrait[] _portraits = new LobbyPortrait[4];
+    private LobbyPortrait[] _portraits = new LobbyPortrait[4];
+
+    public override void _Ready()
+    {
+        for (var i = 0; i < 4; i++)
+        {
+            _portraits[i] = GetNode<LobbyPortrait>($"portrait{i}");
+        }
+    }
 
     public void UpdatePortraits()
     {
