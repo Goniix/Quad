@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=4 uid="uid://bl4pwcu0vh5j8"]
 
-[ext_resource type="Script" uid="uid://mum1hk2hlour" path="res://scripts/Grid.cs" id="1_t5fjg"]
+[ext_resource type="Script" uid="uid://mum1hk2hlour" path="res://scenes/Grid.cs" id="1_t5fjg"]
 [ext_resource type="TileSet" uid="uid://dkksjkilyophc" path="res://ressources/tile_map.tres" id="2_w88cy"]
 
 [node name="Grid" type="TileMapLayer"]

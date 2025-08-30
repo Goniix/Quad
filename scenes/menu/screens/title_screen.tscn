@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7qqnp1bdix7d"]
+[gd_scene load_steps=3 format=3 uid="uid://b7qqnp1bdix7d"]
 
 [ext_resource type="Script" uid="uid://dw5bb4qfbi7qg" path="res://scenes/menu/screens/TitleScreen.cs" id="1_25q0c"]
 [ext_resource type="Theme" uid="uid://cegkvatd1uxkk" path="res://ressources/default_theme.tres" id="1_pidr2"]
-[ext_resource type="Script" uid="uid://bxyrqanlsgo3r" path="res://scripts/EnterName.cs" id="2_25q0c"]
 
-[node name="TitleScreen" type="Control" node_paths=PackedStringArray("_hostButton", "_joinButton")]
+[node name="TitleScreen" type="Control" node_paths=PackedStringArray("_hostButton", "_joinButton", "_nameEdit")]
 visible = false
 layout_mode = 3
 anchors_preset = 0
@@ -13,6 +12,7 @@ offset_bottom = 270.0
 script = ExtResource("1_25q0c")
 _hostButton = NodePath("HostButton")
 _joinButton = NodePath("JoinButton")
+_nameEdit = NodePath("NameEdit")
 
 [node name="HostButton" type="Button" parent="."]
 layout_mode = 0
@@ -40,4 +40,3 @@ offset_bottom = 261.0
 placeholder_text = "Enter your Name"
 max_length = 15
 expand_to_text_length = true
-script = ExtResource("2_25q0c")

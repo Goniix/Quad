@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://xe224oxhkmar"]
 
-[ext_resource type="Script" uid="uid://ddctfupuriifn" path="res://scripts/LobbyPortrait.cs" id="1_hbdgp"]
+[ext_resource type="Script" uid="uid://ddctfupuriifn" path="res://scenes/menu/LobbyPortrait.cs" id="1_hbdgp"]
 
 [node name="LobbyPortrait" type="Control" node_paths=PackedStringArray("PlayerName")]
 layout_mode = 3

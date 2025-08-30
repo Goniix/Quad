@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bfh6u6e4wrm3i"]
 
-[ext_resource type="Script" uid="uid://cq8firmaw10kf" path="res://scripts/Cell.cs" id="1_0s7o3"]
+[ext_resource type="Script" uid="uid://cq8firmaw10kf" path="res://scenes/Cell.cs" id="1_0s7o3"]
 [ext_resource type="Texture2D" uid="uid://b0ji6nrykylyf" path="res://assets/hexagon.png" id="2_nm02e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_exho5"]
