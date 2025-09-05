@@ -111,14 +111,7 @@ public partial class OnlineLobby : Node
             }
         }
     }
-
-    // When a peer connects, send them my player info.
-    // This allows transfer of all desired data for each player, not only the unique ID.
-    private void OnPlayerConnected(long id)
-    {
-        RpcId(id, MethodName.RegisterPlayer, LocalPlayerInfo.Content);
-    }
-
+    
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
     private void RegisterPlayer(Array<string> newPlayerInfo)
     {
@@ -126,12 +119,27 @@ public partial class OnlineLobby : Node
         Players[newPlayerId] = new PlayerInfo(newPlayerInfo);
         EmitSignal(SignalName.PlayerConnected, newPlayerId, newPlayerInfo);
     }
+    
+    // When a peer connects, send them my player info.
+    // This allows transfer of all desired data for each player, not only the unique ID.
+    private void OnPlayerConnected(long id)
+    {
+        RpcId(id, MethodName.RegisterPlayer, LocalPlayerInfo.Content);
+    }
 
     private void OnPlayerDisconnected(long id)
     {
         Logger.Info($"Peer disconnected {id}");
         Players.Remove(id);
         EmitSignal(SignalName.PlayerDisconnected, id);
+    }
+    
+    private void OnServerDisconnected()
+    {
+        Logger.Info("Server disconnected");
+        Multiplayer.MultiplayerPeer = null;
+        Players.Clear();
+        EmitSignal(SignalName.ServerDisconnected);
     }
 
     private void OnConnectOk() //RUNS ON SELF
@@ -148,13 +156,5 @@ public partial class OnlineLobby : Node
         Logger.Info("Connection failed");
         ClearMultiplayer();
         EmitSignal(SignalName.ConnectionFailed);
-    }
-
-    private void OnServerDisconnected()
-    {
-        Logger.Info("Server disconnected");
-        Multiplayer.MultiplayerPeer = null;
-        Players.Clear();
-        EmitSignal(SignalName.ServerDisconnected);
     }
 }
